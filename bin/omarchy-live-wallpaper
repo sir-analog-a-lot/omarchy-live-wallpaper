@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+# Launcher for Omarchy Live Wallpaper (vintage gauges over a cubist background).
+# Installed to ~/.local/bin by install.sh; started by the systemd user service.
+set -euo pipefail
+
+APP_DIR="${OLW_APP_DIR:-$HOME/.local/share/omarchy-live-wallpaper}"
+
+# The systemd user service normally inherits WAYLAND_DISPLAY from the session (uwsm/Hyprland).
+# If it is missing, use the first Wayland socket we can find.
+if [[ -z "${WAYLAND_DISPLAY:-}" ]]; then
+    for sock in "${XDG_RUNTIME_DIR:-/run/user/$(id -u)}"/wayland-[0-9]*; do
+        if [[ -S "$sock" ]]; then
+            WAYLAND_DISPLAY="$(basename "$sock")"
+            break
+        fi
+    done
+fi
+export WAYLAND_DISPLAY="${WAYLAND_DISPLAY:-wayland-1}"
+export GDK_BACKEND=wayland
+
+# gtk4-layer-shell must be loaded before libwayland-client when used from Python.
+for lib in /usr/lib/libgtk4-layer-shell.so /usr/lib/libgtk4-layer-shell.so.0; do
+    if [[ -e "$lib" ]]; then
+        export LD_PRELOAD="$lib${LD_PRELOAD:+:$LD_PRELOAD}"
+        break
+    fi
+done
+
+exec /usr/bin/python3 "$APP_DIR/omarchy_live_wallpaper.py" "$@"

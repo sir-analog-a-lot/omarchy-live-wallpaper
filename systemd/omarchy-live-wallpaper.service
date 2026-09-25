@@ -1,0 +1,16 @@
+[Unit]
+Description=Omarchy Live Wallpaper (vintage system gauges over a cubist background)
+Documentation=file://%h/.local/share/omarchy-live-wallpaper/README.md
+PartOf=graphical-session.target
+After=graphical-session.target
+Requisite=graphical-session.target
+
+[Service]
+Type=simple
+ExecStart=%h/.local/bin/omarchy-live-wallpaper
+Restart=on-failure
+RestartSec=3
+Nice=10
+
+[Install]
+WantedBy=graphical-session.target

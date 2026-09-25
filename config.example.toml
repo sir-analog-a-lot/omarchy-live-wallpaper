@@ -1,0 +1,35 @@
+# Omarchy Live Wallpaper - configuration
+# Location: ~/.config/omarchy-live-wallpaper/config.toml
+# Everything is optional: with every line commented out, all values are auto-detected.
+# After editing:  systemctl --user restart omarchy-live-wallpaper
+# To check what gets detected:  omarchy-live-wallpaper --print-sensors
+
+# Disk for the DISK TEMP and DISK LOAD gauges. "auto" = the disk that holds "/",
+# e.g. "nvme0n1" or "sda" (see `lsblk -d`).
+# disk = "auto"
+
+# Full-scale value of the CPU POWER gauge in watts. 0 = auto (from the CPU's RAPL power limit,
+# rounded up to 15/25/35/45/65/95/125/170/250 W).
+# power_max = 0
+
+# Seconds between sensor reads (minimum 0.25). Higher = even less CPU.
+# interval = 1.0
+
+# Which monitors to draw on: "all", "primary" (the first output, Hyprland monitor 0),
+# one connector name like "DP-1", or a list: ["DP-1", "HDMI-A-1"]  (see `hyprctl monitors`).
+# monitors = "all"
+
+# Background image: "default" (the bundled cubist painting), "none" (transparent - gauges float
+# over your normal Omarchy wallpaper), or a path to any PNG/JPEG, e.g. "~/Pictures/wall.png".
+# background = "default"
+
+# CPU gauge: "auto" (POWER in watts if RAPL is readable, otherwise LOAD %), "power" (always
+# POWER, shows N/A if unreadable) or "load" (always LOAD %).
+# cpu_gauge = "auto"
+
+# Layer-shell layer: "bottom" (default: above the normal wallpaper, below windows) or "background".
+# layer = "bottom"
+
+# Advanced: force a specific temperature sensor file (millidegrees Celsius).
+# drive_temp_sensor = "/sys/class/hwmon/hwmon2/temp1_input"
+# cpu_temp_sensor = "/sys/class/hwmon/hwmon0/temp1_input"
